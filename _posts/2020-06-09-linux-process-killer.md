@@ -123,7 +123,7 @@ The decision most major distributions make is to assume that actually completely
 
 If indeed you fear the reaper, you can fiddle with the kernel variables `vm.overcommit_memory` (and the related `vm.overcommit_ratio` or `vm.overcommit_kbytes`) in order to reserve a set of memory for OS use. 
 If this is done correctly, I assume that whenever a processes which request memory when memory is already full will immediately crash (i.e. the call to `malloc` will fail), rather than the OS choosing a process to kill for you when memory is almost full.
-This could result in a much worse situation, as the most memory intensive processes may not be cleared out quickly, causing many smaller longer running processes (the "innocents") to fail before the system returns to a stable state.
+This could result in a much worse situation, as the most memory intensive processes may not be cleared out quickly, causing many smaller longer running processes (perhaps these are the "innocents" I mentioned above?) to fail before the system returns to a stable state.
 Seen in this light, isn't it preferable that the OS specifically target the most egregious users of memory for killing, rather than the kinder, gentler, database servers and daemons of the world?
 
 Still, if you choose to go this way, it should help to avoid a live-lock situation, which sometimes occurs when the reaper is not quick enough to kill a greedy program.
@@ -145,7 +145,7 @@ A quick search for "oom_reaper" should show you which processes were victimized,
 
 ## Returning to Python
 
-So far, we've learned that Python must resort to multi-processing to benefit from multi-core computation, and that these independent processes are liable to be unceremoniously killed by the underlying environment, leading to a case where some parts of the program have been killed while others are still active, potentially waiting for them.
+So far, I've explained that Python must resort to multi-processing to benefit from multi-core computation, and that these independent processes are liable to be unceremoniously killed by the underlying environment, leading to a case where some parts of the program have been killed while others are still active, potentially waiting for them.
 
 What can be done about this?
 
